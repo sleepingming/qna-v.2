@@ -8,7 +8,7 @@ feature 'User can destroy answer', "
   given(:answer) { create(:answer) }
   given(:user) { create(:user) }
 
-  describe 'Authenticated user' do
+  describe 'Authenticated user', js: true do
     scenario 'user is author' do
       sign_in(answer.user)
       visit question_path(answer.question)

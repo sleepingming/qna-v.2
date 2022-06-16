@@ -14,7 +14,9 @@ class QuestionsController < ApplicationController
     @question = Question.new
   end
 
-  def edit; end
+  def update
+    @question.update(question_params)
+  end
 
   def create
     @question = current_user.questions.build(question_params)
@@ -22,14 +24,6 @@ class QuestionsController < ApplicationController
       redirect_to @question, notice: 'Your question successfully created.'
     else
       render :new
-    end
-  end
-
-  def update
-    if @question.update(question_params)
-      redirect_to @question
-    else
-      render :edit
     end
   end
 

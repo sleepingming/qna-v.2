@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
   let(:user) { create(:user) }
+  let(:not_author) { create(:user) }
 
   describe 'POST #create' do
     before { login(user) }
@@ -34,6 +35,50 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
+  describe 'PATCH #update' do
+    let!(:answer) { create(:answer, question: question, user: user) }
+
+    context 'by author with valid attributes' do
+      before { login(user) }
+
+      it "changes answer attributes" do
+        patch :update, params: { id: answer, answer: { body: 'edited answer' }, format: :js }
+        answer.reload
+        expect(answer.body).to eq 'edited answer'
+      end
+
+      it "renders update view" do
+        patch :update, params: { id: answer, answer: { body: 'edited answer' }, format: :js }
+        expect(response).to render_template :update
+      end
+    end
+
+    context 'by author with invalid attributes' do
+      before { login(user) }
+
+      it "doesnt change answer attributes" do
+        expect do
+          patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid), format: :js }
+        end.to_not change(answer, :body)
+      end
+
+      it "renders update view" do
+        patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid), format: :js }
+        expect(response).to render_template :update
+      end
+    end
+
+    context 'by not author' do
+      before { login(not_author) }
+
+      it "doesnt change answer attributes" do
+        expect do
+          patch :update, params: { id: answer, answer: { body: 'edited answer' }, format: :js }
+        end.to_not change(answer, :body)
+      end
+    end
+  end
+
   describe 'DELETE #destroy' do
     let!(:answer) { create(:answer) }
 
@@ -41,12 +86,14 @@ RSpec.describe AnswersController, type: :controller do
       before { login(answer.user) }
 
       it 'deletes the answer' do
-        expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)
+        expect do
+          delete :destroy, params: { question_id: question, id: answer, format: :js }
+        end.to change(Answer, :count).by(-1)
       end
 
       it 'redirects to question' do
-        delete :destroy, params: { id: answer }
-        expect(response).to redirect_to answer.question
+        delete :destroy, params: { id: answer }, format: :js
+        expect(response).to render_template :destroy
       end
     end
 
@@ -54,12 +101,12 @@ RSpec.describe AnswersController, type: :controller do
       before { login(user) }
 
       it 'not his answer' do
-        expect { delete :destroy, params: { id: answer } }.to_not change(Answer, :count)
+        expect { delete :destroy, params: { id: answer }, format: :js }.to_not change(Answer, :count)
       end
 
       it 'redirects to question' do
-        delete :destroy, params: { id: answer }
-        expect(response).to redirect_to answer.question
+        delete :destroy, params: { id: answer }, format: :js
+        expect(response).to render_template :destroy
       end
     end
   end

@@ -4,9 +4,11 @@ div
       question_path(@question),
       method: "delete"
 
-div
-  h1= @question.title
-  p= @question.body
+.question-errors
+  = render 'shared/errors', resource: @question
+
+.question
+  = render 'question_form', question: @question
 
 div
   h2 Answers:
