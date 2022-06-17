@@ -41,13 +41,13 @@ RSpec.describe AnswersController, type: :controller do
     context 'by author with valid attributes' do
       before { login(user) }
 
-      it "changes answer attributes" do
+      it 'changes answer attributes' do
         patch :update, params: { id: answer, answer: { body: 'edited answer' }, format: :js }
         answer.reload
         expect(answer.body).to eq 'edited answer'
       end
 
-      it "renders update view" do
+      it 'renders update view' do
         patch :update, params: { id: answer, answer: { body: 'edited answer' }, format: :js }
         expect(response).to render_template :update
       end
@@ -56,13 +56,13 @@ RSpec.describe AnswersController, type: :controller do
     context 'by author with invalid attributes' do
       before { login(user) }
 
-      it "doesnt change answer attributes" do
+      it 'doesnt change answer attributes' do
         expect do
           patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid), format: :js }
         end.to_not change(answer, :body)
       end
 
-      it "renders update view" do
+      it 'renders update view' do
         patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid), format: :js }
         expect(response).to render_template :update
       end
@@ -71,7 +71,7 @@ RSpec.describe AnswersController, type: :controller do
     context 'by not author' do
       before { login(not_author) }
 
-      it "doesnt change answer attributes" do
+      it 'doesnt change answer attributes' do
         expect do
           patch :update, params: { id: answer, answer: { body: 'edited answer' }, format: :js }
         end.to_not change(answer, :body)

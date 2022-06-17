@@ -49,10 +49,8 @@ feature 'User can edit answer', "
 
     scenario "tries to edit other user's question" do
       sign_in(not_author)
-        visit question_path(question)
-        expect(page).to_not have_link 'Edit'
+      visit question_path(question)
+      expect(page).to_not have_link 'Edit'
     end
   end
-
-
 end

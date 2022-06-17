@@ -18,7 +18,7 @@ RSpec.describe Question, type: :model do
       expect(question.best_answer_id).to eq answer.id
     end
 
-    it "sets the best answer from not his answers" do
+    it 'sets the best answer from not his answers' do
       question.set_best_answer(some_answer)
       expect(question.best_answer_id).to_not eq some_answer.id
     end

@@ -91,13 +91,13 @@ RSpec.describe QuestionsController, type: :controller do
         patch :update, params: { id: question, question: attributes_for(:question, :invalid), format: :js }
       end
 
-      it "doesnt change question" do
+      it 'doesnt change question' do
         question.reload
         expect(question.title).to eq 'MyString'
         expect(question.body).to eq 'MyText'
       end
 
-      it "renders update view" do
+      it 'renders update view' do
         expect(response).to render_template :update
       end
     end
@@ -105,13 +105,12 @@ RSpec.describe QuestionsController, type: :controller do
     context 'by not author' do
       before { login(not_author) }
 
-      it "doesnt change question attributes" do
+      it 'doesnt change question attributes' do
         expect do
           patch :update, params: { id: question, question: { body: 'new body' }, format: :js }
         end.to_not change(question, :body)
       end
     end
-
   end
 
   describe 'DELETE #destroy' do
