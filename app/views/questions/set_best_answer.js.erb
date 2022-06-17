@@ -1,0 +1,4 @@
+document.querySelector('.answers').innerHTML = '<div class="best-answer"></div>'
+document.querySelector('.best-answer').innerHTML = '<%= j render 'best_answer', question: @question %>'
+
+document.querySelector('.answers').innerHTML += '<%= j render @question.answers.where.not(id: @question.best_answer_id) %>'

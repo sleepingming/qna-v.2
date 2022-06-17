@@ -14,7 +14,10 @@ div
   h2 Answers:
 
 .answers
-  = render @question.answers
+
+  .best-answer
+    = render 'best_answer', question: @question
+  = render @question.answers.where.not(id: @question.best_answer_id)
 
 .answer-errors
   = render 'shared/errors', resource: @answer

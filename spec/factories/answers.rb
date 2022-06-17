@@ -4,6 +4,10 @@ FactoryBot.define do
     question
     user
 
+    factory :same_answer do
+      body { 'SameAnswerText' }
+    end
+
     trait :invalid do
       body { nil }
       question_id { nil }

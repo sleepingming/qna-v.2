@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
-  before_action :load_question, only: %i[show edit update destroy]
+  before_action :load_question, only: %i[show edit update destroy set_best_answer]
 
   def index
     @questions = Question.all
@@ -33,6 +33,13 @@ class QuestionsController < ApplicationController
       redirect_to questions_path, notice: 'Question is successfully deleted.'
     else
       redirect_to @question, notice: 'You are not an author'
+    end
+  end
+
+  def set_best_answer
+    if current_user.author_of?(@question)
+      answer = Answer.find(params[:answer])
+      @question.set_best_answer(answer)
     end
   end
 
