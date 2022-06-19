@@ -52,5 +52,22 @@ feature 'User can edit answer', "
       visit question_path(question)
       expect(page).to_not have_link 'Edit'
     end
+
+    scenario 'edit an answer with attached files' do
+      sign_in(user)
+
+      visit question_path(question)
+      click_on 'Edit answer'
+
+      within '.answers' do
+        fill_in 'Body', with: 'text text'
+
+        attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+        click_on 'Save'
+      end
+
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
+    end
   end
 end
