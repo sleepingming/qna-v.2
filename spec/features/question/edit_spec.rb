@@ -15,8 +15,8 @@ feature 'User can edit his question', "
     expect(page).to_not have_link 'Edit question'
   end
 
-  describe 'Authenticated user' do
-    scenario 'edits his question', js: true do
+  describe 'Authenticated user', js: true do
+    scenario 'edits his question' do
       sign_in(user)
 
       visit question_path(question)
@@ -35,7 +35,7 @@ feature 'User can edit his question', "
       end
     end
 
-    scenario 'edits his question with errors', js: true do
+    scenario 'edits his question with errors' do
       sign_in(user)
 
       visit question_path(question)
@@ -61,6 +61,24 @@ feature 'User can edit his question', "
       visit question_path(question)
 
       expect(page).to_not have_link 'Edit question'
+    end
+
+    scenario 'Authenticated user edit a question with attached files' do
+      sign_in(user)
+
+      visit question_path(question)
+      click_on 'Edit question'
+
+      within '.question' do
+        fill_in 'Title', with: 'Edited question'
+        fill_in 'Body', with: 'text text'
+
+        attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+        click_on 'Save'
+      end
+
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
     end
   end
 end

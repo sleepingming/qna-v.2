@@ -26,7 +26,7 @@ feature 'User can create answer', "
       expect(page).to have_content "Body can't be blank"
     end
 
-    scenario 'Authenticated user asks a question with attached files' do
+    scenario 'Authenticated user creating answer with attached files', js: true do
       fill_in 'Body', with: 'text'
 
       attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
