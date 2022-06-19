@@ -1,0 +1,14 @@
+p= answer.body
+
+div
+  - if current_user&.author_of?(answer.question) && answer.id != answer.question.best_answer_id
+    p= link_to 'Set as best', set_best_answer_question_path(answer.question, answer: answer.id), method: :patch, remote: true
+
+div
+  -if current_user&.author_of?(answer)
+    =link_to 'Delete answer', answer_path(answer), method: :delete, remote: true
+    p= link_to 'Edit answer', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+    = form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
+      = f.label :body
+      = f.text_area :body
+      = f.submit "Save"

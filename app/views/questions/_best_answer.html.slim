@@ -1,0 +1,3 @@
+- if question.best_answer_id
+  =p 'Best Answer:'
+  = render question.answers.find(question.best_answer_id)
