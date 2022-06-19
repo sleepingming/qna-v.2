@@ -9,18 +9,22 @@ RSpec.describe FilesController, type: :controller do
     context 'user is an author' do
       before { sign_in(user) }
 
-      it "deletes file" do
+      it 'deletes file' do
         question.files.attach(io: File.open("#{Rails.root}/spec/rails_helper.rb"), filename: 'rails_helper.rb')
-        expect { delete :destroy, params: { id: question.files.first.id }, format: :js }.to change(question.files, :count).by(-1)
+        expect do
+          delete :destroy, params: { id: question.files.first.id }, format: :js
+        end.to change(question.files, :count).by(-1)
       end
     end
 
     context 'user is not an author' do
       before { sign_in(not_author) }
 
-      it "doesnt deletes the file" do
+      it 'doesnt deletes the file' do
         question.files.attach(io: File.open("#{Rails.root}/spec/rails_helper.rb"), filename: 'rails_helper.rb')
-        expect { delete :destroy, params: { id: question.files.first.id}, format: :js }.to_not change(question.files, :count)
+        expect do
+          delete :destroy, params: { id: question.files.first.id }, format: :js
+        end.to_not change(question.files, :count)
       end
     end
   end

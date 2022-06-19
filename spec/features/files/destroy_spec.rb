@@ -1,11 +1,10 @@
 require 'rails_helper'
 
-feature 'User can delete files', %q{
+feature 'User can delete files', "
   In order to remove files
   As an author
   I'd like to be able to delete a file
-} do
-
+" do
   describe 'Authenticated user' do
     given!(:user) { create(:user) }
     given!(:question) { create(:question, user: user) }
