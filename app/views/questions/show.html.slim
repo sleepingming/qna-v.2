@@ -14,7 +14,6 @@ div
   h2 Answers:
 
 .answers
-
   .best-answer
     = render 'best_answer', question: @question
   = render @question.answers.where.not(id: @question.best_answer_id)
