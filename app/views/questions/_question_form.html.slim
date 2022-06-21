@@ -1,5 +1,11 @@
 h1= question.title
 p= question.body
+- if @question.files.attached?
+  - @question.files.each do |file|
+    div[class="attached-file-#{file.id}"]
+      p= link_to file.filename.to_s, url_for(file)
+      -if current_user&.author_of?(question)
+        p= link_to 'Delete file', file_url(file), method: :delete, remote: true
 
 - if current_user&.author_of?(question)
   p= link_to 'Edit question', '#', class: 'edit-question-link'
@@ -9,5 +15,8 @@ p= question.body
 
     = f.label :body
     = f.text_area :body
+
+    = f.label :files
+    = f.file_field :files, multiple: true, direct_upload: true
 
     = f.submit "Save"
