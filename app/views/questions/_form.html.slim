@@ -8,14 +8,13 @@
   br
   = f.label :files
   = f.file_field :files, multiple: true
-  br
   p Links:
   p
-    = f.fields_for :links do |l|
-      p
-        = l.label :name, 'Link name'
-        = l.text_field :name
-      p
-        = l.label :url
-        = l.text_field :url
+  = f.fields_for :links do |l|
+    = l.label :name, 'Link name'
+    = l.text_field :name, class: 'link_name'
+
+    = l.label :url
+    = l.text_field :url, class: 'link_url'
+  br
   = f.submit 'Ask'

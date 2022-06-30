@@ -26,4 +26,19 @@ feature 'User can add links to answer', "
     end
   end
 
+  scenario 'User adds invalid link when answer', js: true do
+    sign_in(user)
+    visit question_path(question)
+    fill_in 'Body', with: 'text'
+
+    fill_in 'Link name', with: 'My gist'
+    fill_in 'Url', with: '123123'
+
+    click_on 'Send Answer'
+
+    expect(page).to_not have_link 'My gist', href: gist_url
+
+    expect(page).to have_content 'Links url is invalid'
+  end
+
 end
