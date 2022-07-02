@@ -1,10 +1,6 @@
 p= answer.body
 
-.links
-  p Links:
-  ul
-    - answer.links.each do |link|
-      li= link_to link.name, link.url
+= render 'links/link', resource: answer
 
 .answer-files
   - if answer.files.attached?

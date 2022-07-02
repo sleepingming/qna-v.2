@@ -10,11 +10,7 @@ div
 .question
   = render 'question_form', question: @question
 
-.links
-  p Links:
-  ul
-    - @question.links.each do |link|
-      li= link_to link.name, link.url
+= render 'links/link', resource: @question
 
 div
   h2 Answers:

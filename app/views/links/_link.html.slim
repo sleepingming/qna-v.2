@@ -1,0 +1,11 @@
+.links
+  p Links:
+  ul
+    - resource.links.each do |link|
+      div[class="link-#{link.id}"]
+        - if link.url =~ /^(http|https):\/\/gist.github.com\/\w+\/[a-z0-9]{32}$/
+          = javascript_include_tag(link.url.concat(".js"))
+        - else
+          li= link_to link.name, link.url
+        - if current_user&.author_of?(link.linkable)
+          p= link_to 'Delete link', link_path(link), method: :delete, remote: true
