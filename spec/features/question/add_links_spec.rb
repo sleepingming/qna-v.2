@@ -18,12 +18,12 @@ feature 'User can add links to question', "
     fill_in 'Title', with: 'Test question'
     fill_in 'Body', with: 'text'
 
-    fill_in 'Link name', with: 'My gist'
-    fill_in 'Url', with: gist_url
+    fill_in 'Link name', with: 'Google'
+    fill_in 'Url', with: "http://google.com"
 
     click_on 'Ask'
 
-    expect(page).to have_link 'My gist', href: gist_url
+    expect(page).to have_link 'Google', href: "http://google.com"
   end
 
   scenario 'User adds invalid link when asks question' do

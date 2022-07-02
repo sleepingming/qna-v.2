@@ -90,5 +90,22 @@ feature 'User can edit answer', "
 
       expect(page).to_not have_link 'Delete link'
     end
+
+    scenario 'adds link while editing their answer', js: true do
+      sign_in(user)
+
+      visit question_path(question)
+
+      click_on 'Edit answer', match: :first
+
+      within '.answers' do
+        fill_in 'Link name', with: 'Google', match: :first
+        fill_in 'Url', with: 'http://google.com', match: :first
+      end
+
+      click_on 'Save'
+
+      expect(page).to have_link 'Google', href: 'http://google.com'
+    end
   end
 end

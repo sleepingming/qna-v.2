@@ -17,6 +17,7 @@ class QuestionsController < ApplicationController
   end
 
   def update
+    @question.update(links: [])
     @question.update(question_params)
   end
 
