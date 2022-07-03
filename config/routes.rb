@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   resources :files, only: :destroy
   resources :links, only: :destroy
+  get :user_rewards, to: 'rewards#index'
 
   root to: 'questions#index'
 end

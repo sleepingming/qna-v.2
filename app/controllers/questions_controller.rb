@@ -4,6 +4,12 @@ class QuestionsController < ApplicationController
 
   def index
     @questions = Question.all
+    @question = if current_user
+                  current_user.questions.new
+                else
+                  Question.new
+                end
+    @question.build_reward
   end
 
   def show
@@ -42,14 +48,18 @@ class QuestionsController < ApplicationController
   def set_best_answer
     if current_user.author_of?(@question)
       answer = Answer.find(params[:answer])
-      @question.set_best_answer(answer)
+      if @question.set_best_answer(answer) && @question.reward.present?
+        answer.user.give_reward(@question.reward)
+      end
     end
   end
 
   private
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [], links_attributes: [:name, :url])
+    params.require(:question).permit(:title, :body, files: [],
+      links_attributes: [:name, :url],
+      reward_attributes: [:title, :image])
   end
 
   def load_question
