@@ -2,6 +2,8 @@ p= answer.body
 
 = render 'links/link', resource: answer
 
+= render 'votes/vote', votable: answer
+
 .answer-files
   - if answer.files.attached?
     - answer.files.each do |file|

@@ -4,6 +4,8 @@
 // that code so it'll be compiled.
 require('utilities/edit_answer')
 require('utilities/edit_question')
+require('utilities/votes')
+require('jquery')
 
 
 import Rails from "@rails/ujs"
