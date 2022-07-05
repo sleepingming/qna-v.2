@@ -5,12 +5,10 @@ feature 'User can view all their rewards', "
   As an user
   I'd like to be able to show user rewards
 " do
-
   given(:not_reward_owner) { create(:user) }
   given(:reward_owner) { create(:user) }
   given(:question) { create(:question, user: not_reward_owner) }
   given!(:reward) { create(:reward, question: question, user: reward_owner) }
-
 
   describe 'Authenticated user' do
     scenario 'as reward owner tries to see their rewards', js: true do

@@ -76,11 +76,11 @@ feature 'User can edit answer', "
 
       visit question_path(question)
 
-      expect(page).to have_link 'MyLink', href: "http://google.com"
+      expect(page).to have_link 'MyLink', href: 'http://google.com'
 
       click_on 'Delete link'
 
-      expect(page).to_not have_link 'MyLink', href: "http://google.com"
+      expect(page).to_not have_link 'MyLink', href: 'http://google.com'
     end
 
     scenario 'tries to delete link from not his answer', js: true do

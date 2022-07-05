@@ -5,7 +5,6 @@ feature 'User can vote for question', "
   As an authenticate user
   I'd like to be able to vote for question
 " do
-
   given!(:question) { create(:question) }
   given(:user) { create(:user) }
   given!(:user_question) { create(:user) }

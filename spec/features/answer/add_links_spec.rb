@@ -5,7 +5,6 @@ feature 'User can add links to answer', "
   As an question's author
   I'd like to be able to add links
 " do
-
   given(:user) { create(:user) }
   given(:question) { create(:question) }
   given(:gist_url) { 'https://gist.github.com/sleepingming/a6441b150a7b2a5a377725ff8b6bba09' }
@@ -17,12 +16,12 @@ feature 'User can add links to answer', "
     fill_in 'Body', with: 'My answer'
 
     fill_in 'Link name', with: 'Google'
-    fill_in 'Url', with: "http://google.com"
+    fill_in 'Url', with: 'http://google.com'
 
     click_on 'Send Answer'
 
     within '.answers' do
-      expect(page).to have_link 'Google', href: "http://google.com"
+      expect(page).to have_link 'Google', href: 'http://google.com'
     end
   end
 
@@ -40,5 +39,4 @@ feature 'User can add links to answer', "
 
     expect(page).to have_content 'Links url is invalid'
   end
-
 end

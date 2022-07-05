@@ -10,18 +10,18 @@ module Voted
 
     respond_to do |format|
       if vote.save
-        format.json {
+        format.json do
           render json: {
             score: @votable.score,
             id: @votable.id
           }
-        }
+        end
       else
-        format.json {
+        format.json do
           render json: {
             errors: vote.errors.full_messages
           }, status: :unprocessable_entity
-        }
+        end
       end
     end
   end
@@ -31,18 +31,18 @@ module Voted
 
     respond_to do |format|
       if vote.save
-        format.json {
+        format.json do
           render json: {
             score: @votable.score,
             id: @votable.id
           }
-        }
+        end
       else
-        format.json {
+        format.json do
           render json: {
             errors: vote.errors.full_messages
           }, status: :unprocessable_entity
-        }
+        end
       end
     end
   end
@@ -51,12 +51,12 @@ module Voted
     vote = @votable.cancel_vote(current_user)
 
     respond_to do |format|
-        format.json {
-          render json: {
-            score: @votable.score,
-            id: @votable.id
-          }
+      format.json do
+        render json: {
+          score: @votable.score,
+          id: @votable.id
         }
+      end
     end
   end
 
@@ -69,5 +69,4 @@ module Voted
   def load_votable
     @votable = model_klass.find(params[:id])
   end
-
 end

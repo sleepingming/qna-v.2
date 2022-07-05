@@ -25,7 +25,7 @@ RSpec.describe User, type: :model do
     expect(user.author_of?(question)).to eq false
   end
 
-  it "gains reward for their answer" do
+  it 'gains reward for their answer' do
     question.set_best_answer(answer)
     author.give_reward(reward)
 

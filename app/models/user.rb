@@ -14,6 +14,6 @@ class User < ApplicationRecord
   end
 
   def give_reward(reward)
-    self.rewards.push(reward) if self.answers.include?(Answer.find(reward.question.best_answer_id))
+    rewards.push(reward) if answers.include?(Answer.find(reward.question.best_answer_id))
   end
 end

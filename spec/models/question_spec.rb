@@ -35,23 +35,22 @@ RSpec.describe Question, type: :model do
     expect(Question.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
   end
 
-  it "can get vote" do
+  it 'can get vote' do
     question.vote(1, user)
 
     expect(question.votes.first).to be_an_instance_of(Vote)
   end
 
-  it "can cancel vote" do
+  it 'can cancel vote' do
     question.vote(1, user)
     question.cancel_vote(user)
 
     expect(question.votes.count).to eq(0)
   end
 
-  it "can count vote" do
+  it 'can count vote' do
     question.vote(1, user)
 
     expect(question.score).to eq(1)
   end
-
 end
