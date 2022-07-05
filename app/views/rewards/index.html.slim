@@ -1,0 +1,9 @@
+table
+  tr
+    th= 'Question'
+    th= 'Reward'
+    th= 'Reward title'
+
+  = render @rewards
+
+p= link_to 'Back', questions_path

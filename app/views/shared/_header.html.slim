@@ -2,3 +2,4 @@
   div
     p= current_user.email
     p= button_to('Log out', destroy_user_session_path, method: :delete)
+    p= link_to 'My rewards', user_rewards_path

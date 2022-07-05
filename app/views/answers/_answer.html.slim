@@ -1,4 +1,7 @@
 p= answer.body
+
+= render 'links/link', resource: answer
+
 .answer-files
   - if answer.files.attached?
     - answer.files.each do |file|
@@ -20,4 +23,14 @@ div
       = f.text_area :body
       = f.label :files
       = f.file_field :files, multiple: true, direct_upload: true
+
+      p Links:
+      p
+        = f.fields_for :links do |l|
+          = l.label :name, 'Link name'
+          = l.text_field :name, class: 'link_name'
+
+          = l.label :url
+          = l.text_field :url, class: 'link_url'
+
       = f.submit "Save"

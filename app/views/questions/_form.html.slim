@@ -8,5 +8,23 @@
   br
   = f.label :files
   = f.file_field :files, multiple: true
-  br
+
+  p Links:
+  p
+    = f.fields_for :links do |l|
+      = l.label :name, 'Link name'
+      = l.text_field :name, class: 'link_name'
+      = l.label :url
+      = l.text_field :url, class: 'link_url'
+
+
+  p Reward
+  p
+    = f.fields_for Reward.new do |reward|
+      = reward.label :title, 'Reward title'
+      = reward.text_field :title
+
+      = reward.label :image
+      = reward.file_field :image, direct_upload: true
+
   = f.submit 'Ask'

@@ -5,6 +5,7 @@
 require('utilities/edit_answer')
 require('utilities/edit_question')
 
+
 import Rails from "@rails/ujs"
 import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"

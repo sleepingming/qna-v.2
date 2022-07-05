@@ -9,6 +9,7 @@ feature 'User can edit answer', "
   given!(:not_author) { create(:user) }
   given!(:question) { create(:question) }
   given!(:answer) { create(:answer, question: question, user: user) }
+  given!(:link) { create(:link, linkable: answer) }
 
   scenario 'Unauthenticated user can not edit answer' do
     visit question_path(question)
@@ -68,6 +69,43 @@ feature 'User can edit answer', "
 
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
+    end
+
+    scenario 'delete link from his answer', js: true do
+      sign_in(user)
+
+      visit question_path(question)
+
+      expect(page).to have_link 'MyLink', href: "http://google.com"
+
+      click_on 'Delete link'
+
+      expect(page).to_not have_link 'MyLink', href: "http://google.com"
+    end
+
+    scenario 'tries to delete link from not his answer', js: true do
+      sign_in(not_author)
+
+      visit question_path(question)
+
+      expect(page).to_not have_link 'Delete link'
+    end
+
+    scenario 'adds link while editing their answer', js: true do
+      sign_in(user)
+
+      visit question_path(question)
+
+      click_on 'Edit answer', match: :first
+
+      within '.answers' do
+        fill_in 'Link name', with: 'Google', match: :first
+        fill_in 'Url', with: 'http://google.com', match: :first
+      end
+
+      click_on 'Save'
+
+      expect(page).to have_link 'Google', href: 'http://google.com'
     end
   end
 end
