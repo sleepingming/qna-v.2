@@ -9,5 +9,18 @@ Rails.application.routes.draw do
   resources :links, only: :destroy
   get :user_rewards, to: 'rewards#index'
 
+  concern :votable do
+    member do
+      post :like
+      post :dislike
+      delete :cancel_vote
+    end
+  end
+
+  resources :questions, concerns: :votable do
+    patch :set_best_answer, on: :member
+    resources :answers, concerns: :votable, shallow: true, except: %i[show index]
+  end
+
   root to: 'questions#index'
 end

@@ -1,4 +1,6 @@
 class QuestionsController < ApplicationController
+  include Voted
+
   before_action :authenticate_user!, except: %i[index show]
   before_action :load_question, only: %i[show edit update destroy set_best_answer]
 
@@ -48,9 +50,7 @@ class QuestionsController < ApplicationController
   def set_best_answer
     if current_user.author_of?(@question)
       answer = Answer.find(params[:answer])
-      if @question.set_best_answer(answer) && @question.reward.present?
-        answer.user.give_reward(@question.reward)
-      end
+      answer.user.give_reward(@question.reward) if @question.set_best_answer(answer) && @question.reward.present?
     end
   end
 
@@ -58,8 +58,8 @@ class QuestionsController < ApplicationController
 
   def question_params
     params.require(:question).permit(:title, :body, files: [],
-      links_attributes: [:name, :url],
-      reward_attributes: [:title, :image])
+                                                    links_attributes: %i[name url],
+                                                    reward_attributes: %i[title image])
   end
 
   def load_question

@@ -6,6 +6,7 @@ class User < ApplicationRecord
 
   has_many :questions, dependent: :destroy
   has_many :answers, dependent: :destroy
+  has_many :votes, dependent: :destroy
   has_many :rewards
 
   def author_of?(item)
@@ -13,6 +14,6 @@ class User < ApplicationRecord
   end
 
   def give_reward(reward)
-    self.rewards.push(reward) if self.answers.include?(Answer.find(reward.question.best_answer_id))
+    rewards.push(reward) if answers.include?(Answer.find(reward.question.best_answer_id))
   end
 end
