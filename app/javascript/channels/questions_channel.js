@@ -5,10 +5,7 @@ consumer.subscriptions.create("QuestionsChannel", {
     this.perform('follow')
   },
 
-  disconnected() {
-  },
-
-  recieved(data) {
+  received(data) {
     $('.questions').append(data)
   }
 });
