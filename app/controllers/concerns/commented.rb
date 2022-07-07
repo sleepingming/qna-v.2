@@ -34,14 +34,14 @@ module Commented
       author_id: @comment.user_id,
       commentable_id: @comment.commentable_id,
       page: render_comment
-      )
+    )
   end
 
   def render_comment
     ApplicationController.render(
       partial: 'comments/comment',
       locals: {
-        comment: @comment,
+        comment: @comment
       }
     )
   end

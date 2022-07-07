@@ -1,16 +1,15 @@
 require 'rails_helper'
 
-feature 'User can comment', %q{
+feature 'User can comment', "
   In order to write additional info
   As an authenticated user
   I'd like to be able to comment
-} do
-
+" do
   given!(:user) { create(:user) }
   given!(:question) { create(:question, user: user) }
   given!(:answer) { create(:answer, question: question) }
 
-  describe "Authenticated user", js: true do
+  describe 'Authenticated user', js: true do
     background do
       sign_in(user)
 
@@ -18,7 +17,6 @@ feature 'User can comment', %q{
     end
 
     scenario 'create comment' do
-
       fill_in "comment-body#{question.id}", with: 'text text', match: :first
 
       click_on 'Add comment', match: :first
@@ -38,7 +36,6 @@ feature 'User can comment', %q{
       end
 
       Capybara.using_session('user') do
-
         fill_in "comment-body#{question.id}", with: 'text text text', match: :first
 
         click_on 'Add comment', match: :first

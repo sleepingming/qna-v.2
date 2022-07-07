@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
   include Voted
-  #include Commented
+  # include Commented
 
   before_action :authenticate_user!
   before_action :find_answer, only: %i[update destroy]
@@ -36,6 +36,7 @@ class AnswersController < ApplicationController
 
   def publish_answer
     return if @answer.errors.any?
+
     ActionCable.server.broadcast(
       "answers_#{@answer.question.id}",
       author_id: @answer.user.id,
@@ -47,7 +48,7 @@ class AnswersController < ApplicationController
     ApplicationController.render(
       partial: 'answers/answer_for_channel',
       locals: {
-        answer: @answer,
+        answer: @answer
       }
     )
   end

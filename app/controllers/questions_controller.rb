@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   include Voted
-  #include Commented
+  # include Commented
 
   before_action :authenticate_user!, except: %i[index show]
   before_action :load_question, only: %i[show edit update destroy set_best_answer]
@@ -73,13 +73,13 @@ class QuestionsController < ApplicationController
 
   def publish_question
     return if @question.errors.any?
+
     ActionCable.server.broadcast(
       'questions',
       ApplicationController.render(
         partial: 'questions/question',
         locals: { question: @question,
-                  current_user: current_user
-                }
+                  current_user: current_user }
       )
     )
   end
