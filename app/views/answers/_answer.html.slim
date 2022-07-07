@@ -4,6 +4,13 @@ p= answer.body
 
 = render 'votes/vote', votable: answer
 
+.comments id=answer.id
+  = render answer.comments
+
+.comment-errors id=answer.id
+
+= render 'comments/form', commentable: answer
+
 .answer-files
   - if answer.files.attached?
     - answer.files.each do |file|

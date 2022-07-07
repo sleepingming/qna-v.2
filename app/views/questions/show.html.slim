@@ -13,6 +13,14 @@ div
 = render 'votes/vote', votable: @question
 
 = render 'links/link', resource: @question
+
+.comments
+  = render @question.comments
+
+.comment-errors id=@question.id
+
+= render 'comments/form', commentable: @question
+
 div
   h2 Answers:
 

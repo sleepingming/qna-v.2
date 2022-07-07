@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
   include Voted
+  #include Commented
 
   before_action :authenticate_user!, except: %i[index show]
   before_action :load_question, only: %i[show edit update destroy set_best_answer]
@@ -76,7 +77,9 @@ class QuestionsController < ApplicationController
       'questions',
       ApplicationController.render(
         partial: 'questions/question',
-        locals: { question: @question }
+        locals: { question: @question,
+                  current_user: current_user
+                }
       )
     )
   end
