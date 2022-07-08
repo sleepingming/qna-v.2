@@ -61,9 +61,7 @@ feature 'User can create answer', "
 
   scenario 'Unauthenticated user tries to send answer' do
     visit question_path(question)
-    fill_in 'Body', with: 'text'
-    click_on 'Send Answer'
 
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to_not have_content 'Send Answer'
   end
 end
