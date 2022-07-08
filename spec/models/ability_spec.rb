@@ -6,9 +6,9 @@ RSpec.describe Ability, type: :model do
   describe 'for guest' do
     let(:user) { nil }
 
-    it { should be_able_to :read, Question}
-    it { should be_able_to :read, Answer}
-    it { should be_able_to :read, Comment}
+    it { should be_able_to :read, Question }
+    it { should be_able_to :read, Answer }
+    it { should be_able_to :read, Comment }
 
     it { should_not be_able_to :manage, :all }
   end
@@ -21,7 +21,7 @@ RSpec.describe Ability, type: :model do
 
   describe 'for user' do
     let(:user) { create :user }
-    let(:other  ) { create :user }
+    let(:other) { create :user }
 
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }
