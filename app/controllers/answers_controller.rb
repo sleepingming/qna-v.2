@@ -1,8 +1,12 @@
 class AnswersController < ApplicationController
   include Voted
+  # include Commented
 
   before_action :authenticate_user!
   before_action :find_answer, only: %i[update destroy]
+
+  after_action :publish_answer, only: %i[create]
+
   def create
     @question = Question.find(params[:question_id])
     @answer = @question.answers.create(answer_params)
@@ -28,5 +32,24 @@ class AnswersController < ApplicationController
 
   def find_answer
     @answer = Answer.with_attached_files.find(params[:id])
+  end
+
+  def publish_answer
+    return if @answer.errors.any?
+
+    ActionCable.server.broadcast(
+      "answers_#{@answer.question.id}",
+      author_id: @answer.user.id,
+      page: render_answer
+    )
+  end
+
+  def render_answer
+    ApplicationController.render(
+      partial: 'answers/answer_for_channel',
+      locals: {
+        answer: @answer
+      }
+    )
   end
 end

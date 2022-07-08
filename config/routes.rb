@@ -17,10 +17,16 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :questions, concerns: :votable do
+  concern :commentable do
+    resource :comments, only: :create
+  end
+
+  resources :questions, concerns: %i[votable commentable] do
     patch :set_best_answer, on: :member
-    resources :answers, concerns: :votable, shallow: true, except: %i[show index]
+    resources :answers, concerns: %i[votable commentable], shallow: true, except: %i[show index]
   end
 
   root to: 'questions#index'
+
+  mount ActionCable.server => '/cable'
 end
