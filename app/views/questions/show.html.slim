@@ -1,5 +1,5 @@
 div
-  -if current_user&.author_of?(@question)
+  -if can?(:destroy, @question)
     = link_to "Delete question",
       question_path(@question),
       method: "delete"
@@ -29,22 +29,23 @@ div
     = render 'best_answer', question: @question
   = render @question.answers.where.not(id: @question.best_answer_id)
 
-.answer-errors
-  = render 'shared/errors', resource: @answer
-div
-  h2 Enter your answer:
-  = form_with model: [@question, @answer], local: false, data: { type: :json } do |f|
-    = f.label :body
-    = f.text_area :body
-    = f.label :files
-    = f.file_field :files, multiple: true
-    p Links:
-    p
-      = f.fields_for :links do |l|
-        p
-          = l.label :name, 'Link name'
-          = l.text_field :name
-        p
-          = l.label :url
-          = l.text_field :url
-    = f.submit 'Send Answer'
+-if can?(:create, Answer)
+  .answer-errors
+    = render 'shared/errors', resource: @answer
+  div
+    h2 Enter your answer:
+    = form_with model: [@question, @answer], local: false, data: { type: :json } do |f|
+      = f.label :body
+      = f.text_area :body
+      = f.label :files
+      = f.file_field :files, multiple: true
+      p Links:
+      p
+        = f.fields_for :links do |l|
+          p
+            = l.label :name, 'Link name'
+            = l.text_field :name
+          p
+            = l.label :url
+            = l.text_field :url
+      = f.submit 'Send Answer'

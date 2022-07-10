@@ -83,20 +83,7 @@ RSpec.describe AnswersController, type: :controller do
         end.to change(Answer, :count).by(-1)
       end
 
-      it 'redirects to question' do
-        delete :destroy, params: { id: answer }, format: :js
-        expect(response).to render_template :destroy
-      end
-    end
-
-    context 'user is not an author' do
-      before { login(user) }
-
-      it 'not his answer' do
-        expect { delete :destroy, params: { id: answer }, format: :js }.to_not change(Answer, :count)
-      end
-
-      it 'redirects to question' do
+      it 'redirects to questions' do
         delete :destroy, params: { id: answer }, format: :js
         expect(response).to render_template :destroy
       end

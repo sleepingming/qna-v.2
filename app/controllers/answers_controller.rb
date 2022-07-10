@@ -1,11 +1,12 @@
 class AnswersController < ApplicationController
   include Voted
-  # include Commented
 
   before_action :authenticate_user!
   before_action :find_answer, only: %i[update destroy]
 
   after_action :publish_answer, only: %i[create]
+
+  authorize_resource
 
   def create
     @question = Question.find(params[:question_id])
@@ -15,12 +16,12 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @answer.destroy if current_user.author_of?(@answer)
+    @answer.destroy
     @question = @answer.question
   end
 
   def update
-    @answer.update(answer_params) if current_user.author_of?(@answer)
+    @answer.update(answer_params)
     @question = @answer.question
   end
 
