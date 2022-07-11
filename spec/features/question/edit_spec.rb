@@ -101,21 +101,5 @@ feature 'User can edit his question', "
 
       expect(page).to have_link 'Delete link'
     end
-
-    scenario 'adds link while editing their question', js: true do
-      sign_in(user)
-
-      visit question_path(question)
-
-      click_on 'Edit question'
-
-      fill_in 'Link name', with: 'Google', match: :first
-      fill_in 'Url', with: 'http://google.com', match: :first
-
-      click_on 'Save'
-      visit question_path(question)
-
-      expect(page).to have_link 'Google', href: 'http://google.com'
-    end
   end
 end
