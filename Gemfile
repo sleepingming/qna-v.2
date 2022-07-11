@@ -26,16 +26,16 @@ gem 'jbuilder', '~> 2.7'
 # gem 'image_processing', '~> 1.2'
 
 # Reduces boot times through caching; required in config/boot.rb
+gem 'active_model_serializers', '~> 0.10'
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'cancancan'
 gem 'devise'
+gem 'doorkeeper'
 gem 'gon'
 gem 'jquery-rails'
+gem 'oj'
 gem 'slim-rails'
 gem 'validate_url'
-gem 'doorkeeper'
-gem 'active_model_serializers', '~> 0.10'
-gem 'oj'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

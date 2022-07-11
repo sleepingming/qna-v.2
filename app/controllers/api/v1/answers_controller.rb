@@ -38,7 +38,7 @@ class Api::V1::AnswersController < Api::V1::BaseController
   private
 
   def answer_params
-    params.require(:answer).permit(:body, files: [], links_attributes: [:name, :url, :_destroy])
+    params.require(:answer).permit(:body, files: [], links_attributes: %i[name url _destroy])
   end
 
   def load_answer

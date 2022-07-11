@@ -1,13 +1,15 @@
 require 'rails_helper'
 
 describe 'Answers API', type: :request do
-  let(:headers) { { "CONTENT_TYPE" => "application/json",
-                    "ACCEPT" => 'application/json' } }
+  let(:headers) do
+    { 'CONTENT_TYPE' => 'application/json',
+      'ACCEPT' => 'application/json' }
+  end
 
   describe 'GET /api/v1/questions/:question_id/answers' do
     let!(:question) { create(:question) }
     let!(:answers) { create_list(:answer, 3, question: question) }
-    let(:api_path) { "/api/v1/questions/#{question.id}/answers"}
+    let(:api_path) { "/api/v1/questions/#{question.id}/answers" }
 
     it_behaves_like 'API Authorizable' do
       let(:method) { :get }
@@ -28,7 +30,7 @@ describe 'Answers API', type: :request do
 
   describe 'GET /api/v1/answers/:id' do
     let!(:answer) { create(:answer) }
-    let(:api_path) { "/api/v1/answers/#{answer.id}"}
+    let(:api_path) { "/api/v1/answers/#{answer.id}" }
 
     it_behaves_like 'API Authorizable' do
       let(:method) { :get }
@@ -63,7 +65,7 @@ describe 'Answers API', type: :request do
   end
 
   describe 'PATCH /api/v1/answers/:id' do
-    let(:headers) { { "ACCEPT" => "application/json" } }
+    let(:headers) { { 'ACCEPT' => 'application/json' } }
 
     let(:access_token) { create(:access_token) }
     let(:answer) { create(:answer, user_id: access_token.resource_owner_id) }
@@ -74,7 +76,7 @@ describe 'Answers API', type: :request do
     let(:method) { :patch }
     let(:api_path) { "/api/v1/answers/#{answer.id}" }
 
-    it_behaves_like "API Authorizable"
+    it_behaves_like 'API Authorizable'
 
     context 'authorized' do
       context 'author' do
@@ -111,7 +113,8 @@ describe 'Answers API', type: :request do
         let(:answer) { create(:answer) }
 
         it "doesn't edits the answer" do
-          do_request(method, api_path, params: { access_token: access_token.token, answer: { body: 'new body' } }, headers: headers)
+          do_request(method, api_path, params: { access_token: access_token.token, answer: { body: 'new body' } },
+                                       headers: headers)
           answer.reload
           expect(answer.body).to_not eq 'new body'
         end
@@ -120,20 +123,22 @@ describe 'Answers API', type: :request do
   end
 
   describe 'DELETE /api/v1/answers/:id' do
-    let(:headers) { { "ACCEPT" => "application/json" } }
+    let(:headers) { { 'ACCEPT' => 'application/json' } }
 
     let(:access_token) { create(:access_token) }
     let(:answer) { create(:answer, user_id: access_token.resource_owner_id) }
     let(:method) { :delete }
     let(:api_path) { "/api/v1/answers/#{answer.id}" }
 
-
-    it_behaves_like "API Authorizable"
+    it_behaves_like 'API Authorizable'
 
     context 'authorized' do
       context 'author' do
         it 'deletes the answer' do
-          expect { do_request(method, api_path, params: { access_token: access_token.token }, headers: headers) }.to change(answer.user.answers, :count).by(-1)
+          expect do
+            do_request(method, api_path, params: { access_token: access_token.token },
+                                         headers: headers)
+          end.to change(answer.user.answers, :count).by(-1)
         end
 
         it 'returns status 200' do
@@ -145,7 +150,10 @@ describe 'Answers API', type: :request do
       context 'not author' do
         let(:answer) { create(:answer) }
         it "doesn't deletes the answer" do
-          expect { do_request(method, api_path, params: { access_token: access_token.token }, headers: headers) }.to_not change(answer.user.answers, :count)
+          expect do
+            do_request(method, api_path, params: { access_token: access_token.token },
+                                         headers: headers)
+          end.to_not change(answer.user.answers, :count)
         end
       end
     end

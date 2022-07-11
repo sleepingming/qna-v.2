@@ -1,8 +1,10 @@
 require 'rails_helper'
 
 describe 'Questions API', type: :request do
-  let(:headers) { { "CONTENT_TYPE" => "application/json",
-                     "ACCEPT" => 'application/json' } }
+  let(:headers) do
+    { 'CONTENT_TYPE' => 'application/json',
+      'ACCEPT' => 'application/json' }
+  end
 
   describe 'GET /api/v1/questions' do
     let(:api_path) { '/api/v1/questions' }
@@ -17,23 +19,23 @@ describe 'Questions API', type: :request do
       let(:question_response) { json['questions'].first }
       let!(:answers) { create_list(:answer, 3, question: question) }
 
-      before { get api_path, params: { access_token: access_token.token}, headers: headers }
+      before { get api_path, params: { access_token: access_token.token }, headers: headers }
 
-      it "returns 200 status" do
+      it 'returns 200 status' do
         expect(response).to be_successful
       end
 
-      it "returns list of questions" do
+      it 'returns list of questions' do
         expect(json['questions'].size).to eq 2
       end
 
-      it "returns all public fields" do
+      it 'returns all public fields' do
         %w[id title body user_id created_at updated_at].each do |attr|
           expect(question_response[attr]).to eq questions.first.send(attr).as_json
         end
       end
 
-      it "contains user object" do
+      it 'contains user object' do
         expect(question_response['user']['id']).to eq question.user.id
       end
 
@@ -41,11 +43,11 @@ describe 'Questions API', type: :request do
         let(:answer) { answers.first }
         let(:answer_response) { question_response['answers'].first }
 
-        it "returns list of answers" do
+        it 'returns list of answers' do
           expect(question_response['answers'].size).to eq 3
         end
 
-        it "returns all public fields" do
+        it 'returns all public fields' do
           %w[id body user_id created_at updated_at].each do |attr|
             expect(answer_response[attr]).to eq answer.send(attr).as_json
           end
@@ -77,7 +79,7 @@ describe 'Questions API', type: :request do
         get api_path, params: { access_token: access_token.token }, headers: headers
       end
 
-      it "returns 200 status" do
+      it 'returns 200 status' do
         expect(response).to be_successful
       end
 
@@ -92,19 +94,22 @@ describe 'Questions API', type: :request do
   end
 
   describe 'DELETE /api/v1/questions/:id' do
-    let(:headers) { { "ACCEPT" => "application/json" } }
+    let(:headers) { { 'ACCEPT' => 'application/json' } }
 
     let(:access_token) { create(:access_token) }
     let(:question) { create(:question, user_id: access_token.resource_owner_id) }
     let(:method) { :delete }
     let(:api_path) { "/api/v1/questions/#{question.id}" }
 
-    it_behaves_like "API Authorizable"
+    it_behaves_like 'API Authorizable'
 
     context 'authorized' do
       context 'author' do
         it 'deletes the question' do
-          expect { do_request(method, api_path, params: { access_token: access_token.token }, headers: headers) }.to change(question.user.questions, :count).by(-1)
+          expect do
+            do_request(method, api_path, params: { access_token: access_token.token },
+                                         headers: headers)
+          end.to change(question.user.questions, :count).by(-1)
         end
 
         it 'returns status 200' do
@@ -116,7 +121,10 @@ describe 'Questions API', type: :request do
       context 'not author' do
         let(:question) { create(:question) }
         it "doesn't deletes the question" do
-          expect { do_request(method, api_path, params: { access_token: access_token.token }, headers: headers) }.to_not change(question.user.questions, :count)
+          expect do
+            do_request(method, api_path, params: { access_token: access_token.token },
+                                         headers: headers)
+          end.to_not change(question.user.questions, :count)
         end
       end
     end
