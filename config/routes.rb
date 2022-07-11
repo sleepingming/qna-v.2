@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  use_doorkeeper
   devise_for :users
   resources :questions, shallow: true do
     patch :set_best_answer, on: :member
@@ -24,6 +25,14 @@ Rails.application.routes.draw do
   resources :questions, concerns: %i[votable commentable] do
     patch :set_best_answer, on: :member
     resources :answers, concerns: %i[votable commentable], shallow: true, except: %i[show index]
+  end
+
+  namespace :api do
+    namespace :v1 do
+      resources :profiles, only: [] do
+        get :me, on: :collection
+      end
+    end
   end
 
   root to: 'questions#index'
