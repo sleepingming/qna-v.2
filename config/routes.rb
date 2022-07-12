@@ -1,4 +1,10 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
+  authenticate :user, ->(u) { u.admin? } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
+
   use_doorkeeper
   devise_for :users
   resources :questions, shallow: true do
@@ -25,6 +31,10 @@ Rails.application.routes.draw do
   resources :questions, concerns: %i[votable commentable] do
     patch :set_best_answer, on: :member
     resources :answers, concerns: %i[votable commentable], shallow: true, except: %i[show index]
+    member do
+      post :subscribe
+      delete :unsubscribe
+    end
   end
 
   namespace :api do

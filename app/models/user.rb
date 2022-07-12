@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :votes, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :rewards
+  has_many :subscribtions, dependent: :destroy
 
   def author_of?(item)
     item.user_id == id
@@ -16,5 +17,13 @@ class User < ApplicationRecord
 
   def give_reward(reward)
     rewards.push(reward) if answers.include?(Answer.find(reward.question.best_answer_id))
+  end
+
+  def subscribed(question)
+    subscribtions.find_by(question: question)
+  end
+
+  def subscribed?(question)
+    !!subscribtions.find_by(question: question)
   end
 end

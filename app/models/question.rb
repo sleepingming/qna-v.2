@@ -4,6 +4,7 @@ class Question < ApplicationRecord
 
   has_many :answers, dependent: :destroy
   has_many :links, dependent: :destroy, as: :linkable
+  has_many :subscribtions, dependent: :destroy
   has_one :reward
   belongs_to :user
   belongs_to :answer, class_name: 'Answer', foreign_key: 'best_answer_id', optional: true
@@ -15,10 +16,18 @@ class Question < ApplicationRecord
 
   validates :title, :body, presence: true
 
+  after_create :subscribe_author
+
   def set_best_answer(answer)
     if answers.include?(answer)
       assign_attributes({ best_answer_id: answer.id })
       save
     end
+  end
+
+  private
+
+  def subscribe_author
+    user.subscribtions.build(question: self).save
   end
 end
