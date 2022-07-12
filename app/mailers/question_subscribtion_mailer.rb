@@ -1,4 +1,4 @@
-class QuestionSubscriptionMailer < ApplicationMailer
+class QuestionSubscribtionMailer < ApplicationMailer
   def new_answer(user, question)
     @new_answer = question.answers.last
     @question = question

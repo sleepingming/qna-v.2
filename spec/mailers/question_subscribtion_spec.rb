@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe QuestionSubscriptionMailer, type: :mailer do
+RSpec.describe QuestionSubscribtionMailer, type: :mailer do
   describe 'new answer' do
-    let(:mail) {QuestionSubscriptionMailer.new_answer}
+    let(:mail) {QuestionSubscribtionMailer.new_answer}
 
     it "renders the headers" do
       expect(mail.subject).to eq("New answer")
