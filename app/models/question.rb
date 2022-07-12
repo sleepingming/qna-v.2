@@ -18,7 +18,6 @@ class Question < ApplicationRecord
 
   after_create :subscribe_author
 
-
   def set_best_answer(answer)
     if answers.include?(answer)
       assign_attributes({ best_answer_id: answer.id })
@@ -31,5 +30,4 @@ class Question < ApplicationRecord
   def subscribe_author
     user.subscribtions.build(question: self).save
   end
-
 end

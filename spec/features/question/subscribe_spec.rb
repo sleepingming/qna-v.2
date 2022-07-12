@@ -1,11 +1,10 @@
 require 'rails_helper'
 
-feature 'User can subscribe to question', %q{
+feature 'User can subscribe to question', "
   In order to get notification about new answers
   As an authenticated user
   I'd like to be able to subscribe to question
-} do
-
+" do
   given!(:question) { create(:question) }
   given(:user) { create(:user) }
 

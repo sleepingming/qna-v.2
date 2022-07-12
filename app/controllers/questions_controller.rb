@@ -56,7 +56,7 @@ class QuestionsController < ApplicationController
   end
 
   def subscribe
-    if !current_user.subscribed?(@question)
+    unless current_user.subscribed?(@question)
       @subscribtion = current_user.subscribtions.build(question: @question)
       @subscribtion.save
     end

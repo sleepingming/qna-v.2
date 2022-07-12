@@ -34,10 +34,10 @@ gem 'doorkeeper'
 gem 'gon'
 gem 'jquery-rails'
 gem 'oj'
-gem 'slim-rails'
-gem 'validate_url'
 gem 'sidekiq'
 gem 'sinatra', require: false
+gem 'slim-rails'
+gem 'validate_url'
 gem 'whenever', require: false
 
 group :development, :test do

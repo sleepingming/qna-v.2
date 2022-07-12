@@ -18,6 +18,5 @@ class Answer < ApplicationRecord
 
   def send_notification
     QuestionSubscribtionJob.new.perform(question)
-
   end
 end
