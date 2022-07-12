@@ -15,10 +15,12 @@ class Question < ApplicationRecord
 
   validates :title, :body, presence: true
 
+
   def set_best_answer(answer)
     if answers.include?(answer)
       assign_attributes({ best_answer_id: answer.id })
       save
     end
   end
+
 end

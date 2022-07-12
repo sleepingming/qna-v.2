@@ -36,6 +36,9 @@ gem 'jquery-rails'
 gem 'oj'
 gem 'slim-rails'
 gem 'validate_url'
+gem 'sidekiq'
+gem 'sinatra', require: false
+gem 'whenever', require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
