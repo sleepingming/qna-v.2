@@ -3,7 +3,7 @@ class QuestionsController < ApplicationController
   # include Commented
 
   before_action :authenticate_user!, except: %i[index show]
-  before_action :load_question, only: %i[show edit update destroy set_best_answer]
+  before_action :load_question, only: %i[show edit update destroy set_best_answer subscribe unsubscribe]
 
   after_action :publish_question, only: %i[create]
 
@@ -53,6 +53,17 @@ class QuestionsController < ApplicationController
       answer = Answer.find(params[:answer])
       answer.user.give_reward(@question.reward) if @question.set_best_answer(answer) && @question.reward.present?
     end
+  end
+
+  def subscribe
+    if !current_user.subscribed?(@question)
+      @subscribtion = current_user.subscribtions.build(question: @question)
+      @subscribtion.save
+    end
+  end
+
+  def unsubscribe
+    current_user.subscribed(@question).destroy if current_user.subscribed?(@question)
   end
 
   private

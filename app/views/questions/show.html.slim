@@ -9,6 +9,9 @@ div
 
 .question
   = render 'question_form', question: @question
+  .subscribtions-links
+    - if can?(:subscribe, @question)
+      = render 'subscribtions/subscribtion_links'
 
 = render 'votes/vote', votable: @question
 

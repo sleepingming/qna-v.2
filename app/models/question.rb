@@ -16,12 +16,20 @@ class Question < ApplicationRecord
 
   validates :title, :body, presence: true
 
+  after_create :subscribe_author
+
 
   def set_best_answer(answer)
     if answers.include?(answer)
       assign_attributes({ best_answer_id: answer.id })
       save
     end
+  end
+
+  private
+
+  def subscribe_author
+    user.subscribtions.build(question: self).save
   end
 
 end

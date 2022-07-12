@@ -31,7 +31,13 @@ Rails.application.routes.draw do
   resources :questions, concerns: %i[votable commentable] do
     patch :set_best_answer, on: :member
     resources :answers, concerns: %i[votable commentable], shallow: true, except: %i[show index]
+    member do
+      post :subscribe
+      delete :unsubscribe
+    end
   end
+
+
 
   namespace :api do
     namespace :v1 do

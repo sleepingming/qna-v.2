@@ -18,4 +18,12 @@ class User < ApplicationRecord
   def give_reward(reward)
     rewards.push(reward) if answers.include?(Answer.find(reward.question.best_answer_id))
   end
+
+  def subscribed(question)
+    subscribtions.find_by(question: question)
+  end
+
+  def subscribed?(question)
+    !!subscribtions.find_by(question: question)
+  end
 end
